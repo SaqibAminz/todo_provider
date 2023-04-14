@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final tabs = [
       const TodoListWidget(),
-      CompletedListWidget(),
+      const CompletedListWidget(),
     ];
     return Scaffold(
       appBar: AppBar(title: const Text(MyApp.title)),
@@ -45,16 +45,20 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: tabs[selectedIndex],
-      floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        backgroundColor: Colors.black,
-        onPressed: () => showDialog(
-          builder: (context) => const AddTodoDialogWidget(),
-          context: context,
-          barrierDismissible: false,
-        ),
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton:
+          selectedIndex == 0 // Show FAB only for TodoListWidget
+              ? FloatingActionButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  backgroundColor: Colors.black,
+                  onPressed: () => showDialog(
+                    builder: (context) => const AddTodoDialogWidget(),
+                    context: context,
+                    // barrierDismissible: false,
+                  ),
+                  child: const Icon(Icons.add),
+                )
+              : null,
     );
   }
 }

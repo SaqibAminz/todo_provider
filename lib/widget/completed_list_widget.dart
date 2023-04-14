@@ -10,6 +10,9 @@ class CompletedListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<TodosProvider>(context, listen: false);
     final todos = provider.todosCompleted;
+    Scaffold(
+      
+    );
 
     return todos.isEmpty
         ? const Center(

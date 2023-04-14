@@ -106,13 +106,12 @@ class TodoWidget extends StatelessWidget {
   }
 
   void editTodo(BuildContext context, Todo todo) {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (BuildContext context) {
-        return EditTodoPage(todo: todo);
-      },
-    ),
-  );
-}
-
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return EditTodoPage(todo: todo);
+        },
+      ),
+    );
+  }
 }

@@ -8,9 +8,7 @@ void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   static const String title = 'Todo App';
 
-  const MyApp({
-    super.key,
-  });
+  const MyApp({super.key,});
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(

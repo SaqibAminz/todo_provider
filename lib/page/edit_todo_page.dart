@@ -1,20 +1,76 @@
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/model/todo.dart';
 import 'package:todo_app/provider/todos.dart';
 import 'package:todo_app/widget/todo_form_widget.dart';
 
 class EditTodoPage extends StatefulWidget {
-  const EditTodoPage({super.key});
+  final Todo todo;
+
+  const EditTodoPage({super.key, required this.todo});
 
   @override
-  State<EditTodoPage> createState() => _EditTodoPageState();
+  _EditTodoPageState createState() => _EditTodoPageState();
 }
 
 class _EditTodoPageState extends State<EditTodoPage> {
-  String title="";
-  String Description="";
+  final _formKey = GlobalKey<FormState>();
+
+  String title = "";
+  String description = "";
+
   @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
+  void initState() {
+    super.initState();
+
+    title = widget.todo.title;
+    description = widget.todo.description;
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: const Text('Edit Todo'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                final provider =
+                    Provider.of<TodosProvider>(context, listen: false);
+                provider.removeTodo(widget.todo);
+
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: _formKey,
+            child: TodoFormWidget(
+              title: title,
+              description: description,
+              onChangedTitle: (title) => setState(() => this.title = title),
+              onChangedDescripton: (description) =>
+                  setState(() => this.description = description),
+              onSavedTodo: saveTodo,
+            ),
+          ),
+        ),
+      );
+
+  void saveTodo() {
+    final isValid = _formKey.currentState!.validate();
+
+    if (!isValid) {
+      return;
+    } else {
+      final provider = Provider.of<TodosProvider>(context, listen: false);
+
+      provider.updateTodo(widget.todo, title, description);
+
+      Navigator.of(context).pop();
+    }
   }
 }
